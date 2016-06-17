@@ -3,6 +3,7 @@
 
 from include.queue import rabbit
 from include.helper import log
+from include.config import get_config
 import json
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash
@@ -11,6 +12,8 @@ import sys
 # set encoding
 reload(sys)
 sys.setdefaultencoding('utf-8')
+# get config
+config = get_config()
 
 
 # system config
@@ -23,6 +26,7 @@ app.config.from_object(__name__)
 @app.route('/nsis', methods = ['POST'])
 
 def down():
+    global config
     id = int(request.form.get('id', ''))
     title = request.form.get('title', '')
     name = request.form.get('name', '')
@@ -36,7 +40,7 @@ def down():
         abort(400 , '参数不能为空!')
 
     data = {"id":id,"title":title,"name":name,"path":path,"site":site}
-    q = rabbit()
+    q = rabbit(config['rabbit'])
     r, message = q.producer(json.dumps(data, ensure_ascii=False))
 
     if not r:
@@ -48,4 +52,4 @@ def down():
 
 # run
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8088)
+    app.run(host=config['flask']['host'], port=config['flask']['port'])

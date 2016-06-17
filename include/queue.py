@@ -4,14 +4,14 @@
 import pika
 
 class rabbit:
-	def __init__(self):
-		self.user = 'user_nsis'
-		self.password = 'npass234!'
-		self.host = '192.168.2.118'
-		self.port = 5672
-		self.vhost = '/nsis'
-		self.exchange = 'ex_nsis'
-		self.queue = 'q_nsis_1'
+	def __init__(self,config):
+		self.user = config['user']
+		self.password = config['password']
+		self.host = config['host']
+		self.port = config['port']
+		self.vhost = config['vhost']
+		self.exchange = config['exchange']
+		self.queue = config['queue']
 
 		self.connection_init()
 

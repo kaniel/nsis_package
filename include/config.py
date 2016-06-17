@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+#-*- coding: UTF-8 -*-
+
+def get_config():
+
+	config = {
+		# rabbitmq配置
+		'rabbit':{
+			'user' : 'user_nsis',
+			'password' : 'npass234!',
+			'host' : '192.168.2.118',
+			'port' : 5672,
+			'vhost' : '/nsis',
+			'exchange' : 'ex_nsis',
+			'queue' : 'q_nsis_1'
+		},
+		# 启动的http服务的HOST和端口
+		'flask':{
+			'host' : '0.0.0.0',
+			'port' : 8088
+		},
+		'common':{             			
+		    # windows下路径都需要2个\\			
+
+			# 原始nsi脚本位置，各站点不同，注意站点目录
+			'nsi_path' : 'D:\\nsis\\nsis\\nsi\pc6\\template.nsi',
+			# 经过修改的nsi脚本位置，最后会删除
+			'temp_path' : 'D:\\nsis\\nsis\\nsi\pc6\\%s.nsi',
+			# 打包完成后的文件放置目录的根目录，最终路径会加上任务传入的参数的部分，如：D:\nsis\packaged\pc6_soure\2016-6
+			'output_path' : 'D:\\nsis\\packaged\\%s',
+			# 需要打包的文件的目录的根目录，最终路径会加上任务传入的参数的部分，如：D:\nsis\download\pc6_soure\2016-6
+			'basic_down' : 'D:\\nsis\\download',
+			# 处理打包任务的时候执行的命令，注意路径
+			'command' : 'D: & cd D:\\nsis\\nsis\\nsi\pc6 & D:\\nsis\\nsis\makensis.exe '
+		},
+	}
+
+	return config
+
+
