@@ -30,7 +30,7 @@ def callback(ch, method, properties, body):
     try:
         ms = json.loads(body)
     except Exception,e:
-        log('JSON解析错误:' + body, 'consummer_error.log')
+        log('JSON解析错误:' + body + '\n' + Exception + ': ' + e, 'consummer_error.log')
 
     if ms:
         try:
@@ -75,7 +75,7 @@ def callback(ch, method, properties, body):
 
             log(body + '\n' + r, 'compile.log')
         except Exception,e:
-            log('命令执行错误:\n' + e + '\n' + body, 'consummer_error.log')
+            log('命令执行错误:\n' + e + '\n' + body + '\n' + Exception + ': ' + e, 'consummer_error.log')
 
 
 if __name__ == "__main__":
