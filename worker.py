@@ -30,7 +30,7 @@ def callback(ch, method, properties, body):
     try:
         ms = json.loads(body)
     except Exception,e:
-        log('JSON解析错误:' + body + '\n' + Exception + ': ' + e, 'consummer_error.log')
+        log('JSON解析错误:' + body + '\n' + '错误信息: ' + e.message, 'consummer_error.log')
 
     if ms:
         try:
@@ -73,9 +73,14 @@ def callback(ch, method, properties, body):
             # 删除临时脚本
             os.remove(temp_path)
 
+            # 发送ack，如果当前只开一个woker，发送ack也并不能循环处理。但是因为需要调用makensis脚本处理，启动多个没有意义并且可能出错（makensis并发调用可能出错）。可以通过错误日志查询错误，并且可以通过后台查看没确认的消息
+            ch.basic_ack(delivery_tag = method.delivery_tag)  
+
+            # 记录日志
             log(body + '\n' + r, 'compile.log')
         except Exception,e:
-            log('命令执行错误:\n' + e + '\n' + body + '\n' + Exception + ': ' + e, 'consummer_error.log')
+            print e
+            log('命令执行错误:' + body + '\n' + '错误信息: ' + e.message, 'consummer_error.log')
 
 
 if __name__ == "__main__":
