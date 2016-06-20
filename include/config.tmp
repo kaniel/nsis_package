@@ -14,7 +14,8 @@ def get_config():
 			'exchange' : 'ex_nsis',
 			'queue' : 'q_nsis_1'
 		},
-		# 启动的http服务的HOST和端口
+		# 启动的http服务的HOST和端口，直接文件启动可用。
+		# 如果使用IIS+wfastcgi模式启动，这个配置无效，请去IIS配置
 		'flask':{
 			'host' : '0.0.0.0',
 			'port' : 8088
